@@ -32,3 +32,30 @@ var HomeModel = Backbone.Model.extent({
 	}
 
 })
+
+var MainController = function () {
+	var self = this;
+
+	// Event Bus for socket client
+	self.appEventBus = _.extend({}, Backbone.Events);
+	// Event Bus for Backbone Views
+	self.viewEventBus = _.extend({}, Backbone.Events);
+
+	// initialize function
+	self.init = function() {
+		// create a chat client and connect
+		self.chatClient = new ChatClient({vent: self.appEventBus})
+		self.chatClient.connect();
+
+		// create our views, place login view inside container first.
+		self.loginModel = new LoginModel();
+		self.contain{erModel = new ContainerModel({
+			viewState: new LoginView({
+				vent: self.viewEventBus,
+				model: self.loginModel
+			})
+		});
+		self.containerView = new ContainerView({model: self.containerModel})
+		self.containerView.render()
+	}
+}
