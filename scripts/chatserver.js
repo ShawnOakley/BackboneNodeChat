@@ -57,9 +57,16 @@ var Server = function(options) {
 		user.socket.on('onlineUsers', function(){
 			var users = _.map(self.users function(item) {
 				return item.user;
-			})
-		});
+			});
 
 		user.socket.emit('onlineUsers', users);
+	});
+
+	// triggered when socket send a chat message
+	user.socket.on('chat', function(chat) {
+		if (chat) {
+			self.io.sockets.emit('chat', { sender: user.user, message: chat})
+			}
+		});
 	}
 }
